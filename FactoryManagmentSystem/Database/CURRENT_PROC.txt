@@ -1,0 +1,14 @@
+
+CREATE PROCEDURE sp_ApproveOrderAndCreateProduction
+    @ApprovalID INT,
+    @OwnerID INT,
+    @TailorIDs NVARCHAR(500) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        DECLARE @OrderType NVARCHAR(50), @Orde
+
+(1 rows affected)

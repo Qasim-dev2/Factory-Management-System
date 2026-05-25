@@ -1,0 +1,34 @@
+Changed database context to 'GarmentsFactoryDB'.
+========================================
+Tables created successfully!
+- OrderApproval
+- TailorAssignment
+========================================
+========================================
+ORDER APPROVAL SYSTEM SETUP COMPLETE!
+ 
+Tables Created (2):
+  1. OrderApproval
+  2. TailorAssignment
+ 
+Stored Procedures Created (12):
+APPROVAL PROCEDURES:
+  1. sp_GetPendingApprovals
+  2. sp_CheckMaterialsForOrder
+  3. sp_ApproveOrderAndCreateProduction
+  4. sp_RejectOrder
+  5. sp_GetAvailableTailors
+  6. sp_GetApprovalHistory
+ 
+TAILOR PROCEDURES:
+  7. sp_GetTailorAssignments
+  8. sp_UpdateTailorCompletionStatus
+ 
+DELIVERY PROCEDURES:
+  9. sp_GetCompletedProductionsForDelivery
+  10. sp_GetDeliveryAssignments
+  11. sp_UpdateDeliveryStatus
+  12. sp_CreateDeliveryFromProduction
+ 
+Ready for Owner Dashboard integration!
+========================================

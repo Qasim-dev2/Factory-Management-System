@@ -1,0 +1,420 @@
+<Window x:Class="FactoryManagmentSystem.Views.AddDealDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Add New Deal - Factory Management System"
+        Height="800" Width="650"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F8F9FA"
+        Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <!-- Color Resources -->
+        <SolidColorBrush x:Key="AccentBlue" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="AccentGreen" Color="#10B981"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="AccentOrange" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="AccentPurple" Color="#8B5CF6"/>
+        <SolidColorBrush x:Key="CardBackground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#6B7280"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#E5E7EB"/>
+
+        <!-- Form Input Style -->
+        <Style x:Key="FormInput" TargetType="TextBox">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentBlue}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Multi-line TextBox Style -->
+        <Style x:Key="FormTextArea" TargetType="TextBox" BasedOn="{StaticResource FormInput}">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Height" Value="80"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style x:Key="FormComboBox" TargetType="ComboBox">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="42"/>
+        </Style>
+
+
+
+        <!-- Button Styles -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentBlue}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#6B7280"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#4B5563"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Label Style -->
+        <Style x:Key="FormLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <!-- Section Header Style -->
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentBlue}"/>
+            <Setter Property="Margin" Value="0,20,0,15"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="{StaticResource CardBackground}" CornerRadius="12" Margin="20">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="30">
+            <StackPanel>
+                <!-- Header -->
+                <Grid Margin="0,0,0,30">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="🤝" FontSize="32" Margin="0,0,15,0"/>
+                        <StackPanel>
+                            <TextBlock Text="Add New Deal" FontSize="28" FontWeight="Bold" 
+                                       Foreground="{StaticResource TextPrimary}"/>
+                            <TextBlock Text="Create a new business deal or partnership agreement" 
+                                       FontSize="14" Foreground="{StaticResource TextSecondary}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Basic Information Section -->
+                <TextBlock Text="📋 Basic Information" Style="{StaticResource SectionHeader}"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Deal Title *" Style="{StaticResource FormLabel}"/>
+                        <TextBox Name="DealTitleTextBox" Style="{StaticResource FormInput}" 
+                                 Text=""/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Deal Type *" Style="{StaticResource FormLabel}"/>
+                        <ComboBox Name="DealTypeComboBox" Style="{StaticResource FormComboBox}">
+                            <ComboBoxItem Content="Partnership" IsSelected="True"/>
+                            <ComboBoxItem Content="Supply Contract"/>
+                            <ComboBoxItem Content="Distribution Agreement"/>
+                            <ComboBoxItem Content="Manufacturing Contract"/>
+                            <ComboBoxItem Content="Service Agreement"/>
+                            <ComboBoxItem Content="Joint Venture"/>
+                            <ComboBoxItem Content="Licensing Agreement"/>
+                            <ComboBoxItem Content="Export Contract"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Client Information Section -->
+                <TextBlock Text="🏢 Client Information" Style="{StaticResource SectionHeader}"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Client/Company Name *" Style="{StaticResource FormLabel}"/>
+                        <TextBox Name="ClientNameTextBox" Style="{StaticResource FormInput}"
+                                 Text=""/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Contact Person" Style="{StaticResource FormLabel}"/>
+                        <TextBox Name="ContactPersonTextBox" Style="{StaticResource FormInput}"
+                                 Text=""/>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Email Address" Style="{StaticResource FormLabel}"/>
+                        <TextBox Name="EmailTextBox" Style="{StaticResource FormInput}"
+                                 Text=""/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Phone Number" Style="{StaticResource FormLabel}"/>
+                        <TextBox Name="PhoneTextBox" Style="{StaticResource FormInput}"
+                                 Text=""/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Deal Details Section -->
+                <TextBlock Text="💰 Deal Details" Style="{StaticResource SectionHeader}"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Estimated Deal Value" Style="{StaticResource FormLabel}"/>
+                        <TextBox Name="DealValueTextBox" Style="{StaticResource FormInput}"
+                                 Text=""/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Currency" Style="{StaticResource FormLabel}"/>
+                        <ComboBox Name="CurrencyComboBox" Style="{StaticResource FormComboBox}">
+                            <ComboBoxItem Content="USD ($)" IsSelected="True"/>
+                            <ComboBoxItem Content="EUR (€)"/>
+                            <ComboBoxItem Content="GBP (£)"/>
+                            <ComboBoxItem Content="PKR (₨)"/>
+                            <ComboBoxItem Content="CAD ($)"/>
+                            <ComboBoxItem Content="AUD ($)"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Deal Priority" Style="{StaticResource FormLabel}"/>
+                        <ComboBox Name="PriorityComboBox" Style="{StaticResource FormComboBox}">
+                            <ComboBoxItem Content="Low"/>
+                            <ComboBoxItem Content="Medium" IsSelected="True"/>
+                            <ComboBoxItem Content="High"/>
+                            <ComboBoxItem Content="Critical"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Expected Duration" Style="{StaticResource FormLabel}"/>
+                        <TextBox Name="DurationTextBox" Style="{StaticResource FormInput}"
+                                 Text=""/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Timeline Section -->
+                <TextBlock Text="📅 Timeline" Style="{StaticResource SectionHeader}"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Proposed Start Date" Style="{StaticResource FormLabel}"/>
+                        <DatePicker Name="StartDatePicker" Height="42" FontSize="14"
+                                   SelectedDate="{x:Static System:DateTime.Today}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Expected End Date" Style="{StaticResource FormLabel}"/>
+                        <DatePicker Name="EndDatePicker" Height="42" FontSize="14"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Terms and Description Section -->
+                <TextBlock Text="📝 Terms &amp; Description" Style="{StaticResource SectionHeader}"/>
+                
+                <StackPanel>
+                    <TextBlock Text="Deal Description" Style="{StaticResource FormLabel}"/>
+                    <TextBox Name="DescriptionTextBox" Style="{StaticResource FormTextArea}"
+                             Text=""/>
+                </StackPanel>
+
+                <StackPanel Margin="0,15,0,0">
+                    <TextBlock Text="Key Terms &amp; Conditions" Style="{StaticResource FormLabel}"/>
+                    <TextBox Name="TermsTextBox" Style="{StaticResource FormTextArea}"
+                             Text=""/>
+                </StackPanel>
+
+                <!-- Payment Information Section -->
+                <TextBlock Text="💳 Payment Information" Style="{StaticResource SectionHeader}"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Payment Terms" Style="{StaticResource FormLabel}"/>
+                        <ComboBox Name="PaymentTermsComboBox" Style="{StaticResource FormComboBox}">
+                            <ComboBoxItem Content="Net 30 Days" IsSelected="True"/>
+                            <ComboBoxItem Content="Net 60 Days"/>
+                            <ComboBoxItem Content="Net 90 Days"/>
+                            <ComboBoxItem Content="Payment on Delivery"/>
+                            <ComboBoxItem Content="50% Advance, 50% on Delivery"/>
+                            <ComboBoxItem Content="Monthly Installments"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Payment Method" Style="{StaticResource FormLabel}"/>
+                        <ComboBox Name="PaymentMethodComboBox" Style="{StaticResource FormComboBox}">
+                            <ComboBoxItem Content="Bank Transfer" IsSelected="True"/>
+                            <ComboBoxItem Content="Letter of Credit"/>
+                            <ComboBoxItem Content="Check"/>
+                            <ComboBoxItem Content="Wire Transfer"/>
+                            <ComboBoxItem Content="Trade Finance"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Additional Information Section -->
+                <TextBlock Text="ℹ️ Additional Information" Style="{StaticResource SectionHeader}"/>
+                
+                <StackPanel>
+                    <TextBlock Text="Special Requirements" Style="{StaticResource FormLabel}"/>
+                    <TextBox Name="RequirementsTextBox" Style="{StaticResource FormTextArea}"
+                             Text=""/>
+                </StackPanel>
+
+                <Grid Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Assigned Manager" Style="{StaticResource FormLabel}"/>
+                        <ComboBox Name="ManagerComboBox" Style="{StaticResource FormComboBox}">
+                            <ComboBoxItem Content="Sarah Johnson - Sales Director"/>
+                            <ComboBoxItem Content="Mike Chen - Business Development"/>
+                            <ComboBoxItem Content="Lisa Rodriguez - Partnership Manager"/>
+                            <ComboBoxItem Content="David Thompson - Account Manager"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Deal Status" Style="{StaticResource FormLabel}"/>
+                        <ComboBox Name="StatusComboBox" Style="{StaticResource FormComboBox}">
+                            <ComboBoxItem Content="Draft" IsSelected="True"/>
+                            <ComboBoxItem Content="Under Review"/>
+                            <ComboBoxItem Content="Pending Approval"/>
+                            <ComboBoxItem Content="Approved"/>
+                            <ComboBoxItem Content="Active"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Action Buttons -->
+                <Grid Margin="0,40,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Name="CancelButton" Content="✖️ Cancel" 
+                            Style="{StaticResource SecondaryButton}" Click="Cancel_Click"/>
+                    
+                    <Button Grid.Column="2" Name="SaveButton" Content="💾 Create Deal" 
+                            Style="{StaticResource PrimaryButton}" Click="Save_Click"/>
+                </Grid>
+
+                <!-- Help Text -->
+                <Border Background="#F3F4F6" CornerRadius="8" Padding="15" Margin="0,20,0,0">
+                    <StackPanel>
+                        <TextBlock Text="💡 Tips for Creating Deals" FontWeight="Bold" FontSize="14" 
+                                   Foreground="{StaticResource AccentBlue}" Margin="0,0,0,8"/>
+                        <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="{StaticResource TextSecondary}">
+                            • Ensure all required fields are filled accurately<LineBreak/>
+                            • Double-check client contact information<LineBreak/>
+                            • Be specific about terms and conditions<LineBreak/>
+                            • Set realistic timelines and expectations<LineBreak/>
+                            • Include payment terms and methods clearly
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</Window>

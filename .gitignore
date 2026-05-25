@@ -1,0 +1,88 @@
+# Compiled files
+bin/
+obj/
+*.o
+*.a
+*.so
+
+# Build directories
+Debug/
+Release/
+x64/
+x86/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.sln.dotsettings
+*.sln.dotsettings.user
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Rider IDE
+.idea/
+*.sln.iml
+
+# ResSharpier
+_ReSharper*/
+*.resharper
+*.resharper.user
+
+# NuGet
+*.nupkg
+*.nuget.props
+*.nuget.targets
+packages/
+
+# Entity Framework
+*.edmx.diagram
+*.edmx
+
+# Application files
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+publish/
+
+# Runtime files
+*.log
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local environment
+*.local
+*.env
+appsettings.local.json
+
+# Database backups
+*.bak
+*.mdf
+*.ldf
+
+# Build output
+out/
+dist/
+build/
+
+# Misc
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+*.sw[op]
+*~
+.#*
+.*.swp
+.*.swo
+*~
+.temp/
+.cache/

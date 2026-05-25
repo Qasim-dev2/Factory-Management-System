@@ -1,0 +1,399 @@
+<Window x:Class="FactoryManagmentSystem.CreateOrderDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Create New Order" Height="800" Width="1100"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F8FAFC">
+
+    <Window.Resources>
+        <!-- Section Header Style -->
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#1E293B"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+        <!-- Input Label Style -->
+        <Style x:Key="InputLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <!-- Input Field Style -->
+        <Style x:Key="InputField" TargetType="TextBox">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#3B82F6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style x:Key="InputComboBox" TargetType="ComboBox">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#3B82F6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- DatePicker Style -->
+        <Style x:Key="InputDatePicker" TargetType="DatePicker">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+        <!-- Button Style -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Secondary Button Style -->
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Foreground" Value="#475569"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E2E8F0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Add Button Style -->
+        <Style x:Key="AddButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#10B981"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#059669"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="30">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <!-- Header -->
+                <TextBlock Text="🛒 Create New Sales Order" FontSize="24" FontWeight="Bold" 
+                           Foreground="#1E293B" Margin="0,0,0,30" HorizontalAlignment="Center"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left Column -->
+                    <StackPanel Grid.Column="0">
+                        <!-- Order Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="📋 Order Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Order ID *" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="OrderIdTextBox" Style="{StaticResource InputField}" IsReadOnly="True"/>
+                                
+                                <TextBlock Text="Order Date *" Style="{StaticResource InputLabel}"/>
+                                <DatePicker Name="OrderDatePicker" Style="{StaticResource InputDatePicker}"/>
+                                
+                                <TextBlock Text="Expected Delivery Date *" Style="{StaticResource InputLabel}"/>
+                                <DatePicker Name="DeliveryDatePicker" Style="{StaticResource InputDatePicker}"/>
+                                
+                                <TextBlock Text="Priority Level" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="PriorityComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Low"/>
+                                    <ComboBoxItem Content="Medium" IsSelected="True"/>
+                                    <ComboBoxItem Content="High"/>
+                                    <ComboBoxItem Content="Rush"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Order Status" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="StatusComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Pending" IsSelected="True"/>
+                                    <ComboBoxItem Content="Confirmed"/>
+                                    <ComboBoxItem Content="In Production"/>
+                                    <ComboBoxItem Content="Ready to Ship"/>
+                                    <ComboBoxItem Content="Shipped"/>
+                                    <ComboBoxItem Content="Delivered"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Customer Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="👤 Customer Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Select Customer *" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="CustomerComboBox" Style="{StaticResource InputComboBox}" 
+                                          SelectionChanged="CustomerComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Fashion Plaza - Karachi"/>
+                                    <ComboBoxItem Content="Style Center - Lahore"/>
+                                    <ComboBoxItem Content="Elite Fashion - Faisalabad"/>
+                                    <ComboBoxItem Content="Modern Garments - Islamabad"/>
+                                    <ComboBoxItem Content="Classic Boutique - Rawalpindi"/>
+                                    <ComboBoxItem Content="Trendy Threads - Karachi"/>
+                                    <ComboBoxItem Content="Add New Customer..."/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Customer Email" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="CustomerEmailTextBox" Style="{StaticResource InputField}" IsReadOnly="True"/>
+                                
+                                <TextBlock Text="Customer Phone" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="CustomerPhoneTextBox" Style="{StaticResource InputField}" IsReadOnly="True"/>
+                                
+                                <TextBlock Text="Shipping Address *" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="ShippingAddressTextBox" Style="{StaticResource InputField}" Height="80" 
+                                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                                
+                                <TextBlock Text="Special Instructions" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="SpecialInstructionsTextBox" Style="{StaticResource InputField}" Height="60" 
+                                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Payment Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="💳 Payment Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Payment Terms" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="PaymentTermsComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Cash on Delivery"/>
+                                    <ComboBoxItem Content="15 days"/>
+                                    <ComboBoxItem Content="30 days" IsSelected="True"/>
+                                    <ComboBoxItem Content="45 days"/>
+                                    <ComboBoxItem Content="60 days"/>
+                                    <ComboBoxItem Content="90 days"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Advance Payment (%)" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="AdvancePaymentTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Discount Percentage (%)" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="DiscountPercentageTextBox" Style="{StaticResource InputField}" TextChanged="DiscountPercentageTextBox_TextChanged"/>
+                                
+                                <TextBlock Text="Payment Status" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="PaymentStatusComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Pending" IsSelected="True"/>
+                                    <ComboBoxItem Content="Partial"/>
+                                    <ComboBoxItem Content="Paid"/>
+                                    <ComboBoxItem Content="Overdue"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Right Column -->
+                    <StackPanel Grid.Column="2">
+                        <!-- Order Items Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="🛍️ Order Items" Style="{StaticResource SectionHeader}" Margin="0"/>
+                                    <Button Grid.Column="1" Content="+ Add Item" 
+                                            Style="{StaticResource AddButton}"
+                                            Click="AddItemButton_Click"/>
+                                </Grid>
+                                
+                                <!-- Items DataGrid -->
+                                <DataGrid Name="OrderItemsDataGrid" Height="300" AutoGenerateColumns="False"
+                                          CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="False"
+                                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9"
+                                          Background="White" BorderBrush="#E0E6ED" BorderThickness="1">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="120"/>
+                                        <DataGridTextColumn Header="Size" Binding="{Binding Size}" Width="60"/>
+                                        <DataGridTextColumn Header="Color" Binding="{Binding Color}" Width="80"/>
+                                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="60"/>
+                                        <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat=₨{0:N0}}" Width="80"/>
+                                        <DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, StringFormat=₨{0:N0}}" Width="80"/>
+                                        <DataGridTemplateColumn Header="Action" Width="80">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="❌" Padding="4" Background="Transparent" 
+                                                            BorderThickness="0" Click="RemoveItem_Click" 
+                                                            Tag="{Binding}" ToolTip="Remove Item"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Order Summary Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="📊 Order Summary" Style="{StaticResource SectionHeader}"/>
+                                
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Total Items:" FontWeight="Medium" Margin="0,5"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Name="TotalItemsText" Text="0" FontWeight="Medium" Margin="0,5"/>
+                                    
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Subtotal:" FontWeight="Medium" Margin="0,5"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Name="SubtotalText" Text="₨0" FontWeight="Medium" Margin="0,5"/>
+                                    
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Discount:" FontWeight="Medium" Margin="0,5"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Name="DiscountText" Text="₨0" FontWeight="Medium" Margin="0,5"/>
+                                    
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Tax (5%):" FontWeight="Medium" Margin="0,5"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Name="TaxText" Text="₨0" FontWeight="Medium" Margin="0,5"/>
+                                    
+                                    <Separator Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10"/>
+                                    
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Total Amount:" FontSize="16" FontWeight="Bold" 
+                                               Foreground="#1E293B" Margin="0,10,0,0"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Name="TotalAmountText" Text="₨0" FontSize="16" 
+                                               FontWeight="Bold" Foreground="#3B82F6" Margin="0,10,0,0"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Additional Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="📝 Additional Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Sales Representative" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="SalesRepComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Ahmed Hassan"/>
+                                    <ComboBoxItem Content="Fatima Khan"/>
+                                    <ComboBoxItem Content="Muhammad Ali"/>
+                                    <ComboBoxItem Content="Sara Ahmed"/>
+                                    <ComboBoxItem Content="Omar Sheikh"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Order Source" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="OrderSourceComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Direct Call" IsSelected="True"/>
+                                    <ComboBoxItem Content="Email"/>
+                                    <ComboBoxItem Content="Website"/>
+                                    <ComboBoxItem Content="Walk-in"/>
+                                    <ComboBoxItem Content="Referral"/>
+                                    <ComboBoxItem Content="Trade Show"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Internal Notes" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="InternalNotesTextBox" Style="{StaticResource InputField}" Height="80" 
+                                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                                
+                                <TextBlock Text="Tags (Comma separated)" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="TagsTextBox" Style="{StaticResource InputField}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Action Buttons -->
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="1" Content="💾 Save Order" Style="{StaticResource PrimaryButton}"
+                            Click="SaveOrderButton_Click" MinWidth="140"/>
+                    <Button Grid.Column="3" Content="📄 Save &amp; Print" Style="{StaticResource SecondaryButton}"
+                            Click="SaveAndPrintButton_Click" MinWidth="140"/>
+                    <Button Grid.Column="5" Content="❌ Cancel" Style="{StaticResource SecondaryButton}"
+                            Click="CancelButton_Click" MinWidth="120"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

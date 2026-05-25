@@ -1,0 +1,52 @@
+Changed database context to 'GarmentsFactoryDB'.
+========================================
+Tables created successfully!
+- OrderApproval
+- TailorAssignment
+========================================
+Msg 102, Level 15, State 1, Server Qasim\SQLEXPRESS, Procedure sp_UpdateTailorCompletionStatus, Line 150
+Incorrect syntax near 'r'.
+Msg 156, Level 15, State 1, Server Qasim\SQLEXPRESS, Procedure sp_UpdateTailorCompletionStatus, Line 167
+Incorrect syntax near the keyword 'COMMIT'.
+Msg 207, Level 16, State 1, Server Qasim\SQLEXPRESS, Procedure sp_GetDeliveryAssignments, Line 49
+Invalid column name 'DealID'.
+Msg 207, Level 16, State 1, Server Qasim\SQLEXPRESS, Procedure sp_GetDeliveryAssignments, Line 12
+Invalid column name 'DealID'.
+Msg 207, Level 16, State 1, Server Qasim\SQLEXPRESS, Procedure sp_GetDeliveryAssignments, Line 27
+Invalid column name 'DealID'.
+Msg 207, Level 16, State 1, Server Qasim\SQLEXPRESS, Procedure sp_GetDeliveryAssignments, Line 40
+Invalid column name 'ClientPhone'.
+Msg 207, Level 16, State 1, Server Qasim\SQLEXPRESS, Procedure sp_GetDeliveryAssignments, Line 41
+Invalid column name 'ClientContactPerson'.
+Msg 207, Level 16, State 1, Server Qasim\SQLEXPRESS, Procedure sp_UpdateDeliveryStatus, Line 38
+Invalid column name 'DealID'.
+Msg 207, Level 16, State 1, Server Qasim\SQLEXPRESS, Procedure sp_UpdateDeliveryStatus, Line 39
+Invalid column name 'DealID'.
+========================================
+ORDER APPROVAL SYSTEM SETUP COMPLETE!
+ 
+Tables Created (2):
+  1. OrderApproval
+  2. TailorAssignment
+ 
+Stored Procedures Created (12):
+APPROVAL PROCEDURES:
+  1. sp_GetPendingApprovals
+  2. sp_CheckMaterialsForOrder
+  3. sp_ApproveOrderAndCreateProduction
+  4. sp_RejectOrder
+  5. sp_GetAvailableTailors
+  6. sp_GetApprovalHistory
+ 
+TAILOR PROCEDURES:
+  7. sp_GetTailorAssignments
+  8. sp_UpdateTailorCompletionStatus
+ 
+DELIVERY PROCEDURES:
+  9. sp_GetCompletedProductionsForDelivery
+  10. sp_GetDeliveryAssignments
+  11. sp_UpdateDeliveryStatus
+  12. sp_CreateDeliveryFromProduction
+ 
+Ready for Owner Dashboard integration!
+========================================

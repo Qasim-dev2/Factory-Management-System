@@ -1,0 +1,63 @@
+Text                                                                                                                                                                                                                                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE PROCEDURE sp_ApproveOrder
+    @ApprovalID INT,
+    @ApprovedBy INT,
+    @TailorID INT = NULL,
+    @Comments NVARCHAR(500) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        DECLARE @OrderType NVARCHAR(50)
+, @OrderID INT;
+        
+        -- Get order details
+        SELECT @OrderType = OrderType, @OrderID = OrderID
+        FROM OrderApproval WHERE ApprovalID = @ApprovalID;
+        
+        IF @OrderType IS NULL
+        BEGIN
+            RAISERROR('Approval
+ request not found.', 16, 1);
+            RETURN;
+        END
+        
+        -- Update approval record
+        UPDATE OrderApproval
+        SET Status = 'Approved',
+            ApprovedBy = @ApprovedBy,
+            ApprovalDate = GETDATE(),
+            
+ApprovalStatus = 'Approved',
+            Comments = @Comments
+        WHERE ApprovalID = @ApprovalID;
+        
+        -- Update order status based on type
+        IF @OrderType = 'SalesOrder'
+        BEGIN
+            UPDATE SalesOrder SET Status = 'Appr
+oved', UpdatedDate = GETDATE() WHERE SalesOrderID = @OrderID;
+        END
+        ELSE IF @OrderType = 'Deal'
+        BEGIN
+            UPDATE Deal SET Status = 'Approved', UpdatedDate = GETDATE() WHERE DealID = @OrderID;
+        END
+        
+        COMM
+IT TRANSACTION;
+        PRINT 'Order approved successfully.';
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@ErrorMessage
+, 16, 1);
+    END CATCH
+END
+                                                                                                                                                                                                                                   

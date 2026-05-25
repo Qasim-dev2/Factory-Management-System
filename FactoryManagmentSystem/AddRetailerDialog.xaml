@@ -1,0 +1,340 @@
+<Window x:Class="FactoryManagmentSystem.AddRetailerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add New Retailer" Height="700" Width="900"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F8FAFC">
+
+    <Window.Resources>
+        <!-- Section Header Style -->
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#1E293B"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+        <!-- Input Label Style -->
+        <Style x:Key="InputLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <!-- Input Field Style -->
+        <Style x:Key="InputField" TargetType="TextBox">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#3B82F6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style x:Key="InputComboBox" TargetType="ComboBox">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#3B82F6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Button Style -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Secondary Button Style -->
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Foreground" Value="#475569"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E2E8F0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="30">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <!-- Header -->
+                <TextBlock Text="🏪 Add New Retailer" FontSize="24" FontWeight="Bold" 
+                           Foreground="#1E293B" Margin="0,0,0,30" HorizontalAlignment="Center"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left Column -->
+                    <StackPanel Grid.Column="0">
+                        <!-- Company Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="🏢 Company Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Company Name *" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="CompanyNameTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Business Type" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="BusinessTypeComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Retail Store"/>
+                                    <ComboBoxItem Content="Boutique"/>
+                                    <ComboBoxItem Content="Department Store"/>
+                                    <ComboBoxItem Content="Online Store"/>
+                                    <ComboBoxItem Content="Wholesale"/>
+                                    <ComboBoxItem Content="Chain Store"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Registration Number" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="RegistrationNumberTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Tax ID / NTN" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="TaxIdTextBox" Style="{StaticResource InputField}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Contact Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="👤 Contact Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Contact Person *" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="ContactPersonTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Designation" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="DesignationTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Phone Number *" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="PhoneTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Email Address *" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="EmailTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Alternative Phone" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="AlternativePhoneTextBox" Style="{StaticResource InputField}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Location Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="📍 Location Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Address *" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="AddressTextBox" Style="{StaticResource InputField}" Height="60" 
+                                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                                
+                                <TextBlock Text="City *" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="CityComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Karachi"/>
+                                    <ComboBoxItem Content="Lahore"/>
+                                    <ComboBoxItem Content="Islamabad"/>
+                                    <ComboBoxItem Content="Faisalabad"/>
+                                    <ComboBoxItem Content="Rawalpindi"/>
+                                    <ComboBoxItem Content="Peshawar"/>
+                                    <ComboBoxItem Content="Quetta"/>
+                                    <ComboBoxItem Content="Multan"/>
+                                    <ComboBoxItem Content="Sialkot"/>
+                                    <ComboBoxItem Content="Gujranwala"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Province/State" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="ProvinceComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Sindh"/>
+                                    <ComboBoxItem Content="Punjab"/>
+                                    <ComboBoxItem Content="Khyber Pakhtunkhwa"/>
+                                    <ComboBoxItem Content="Balochistan"/>
+                                    <ComboBoxItem Content="Gilgit-Baltistan"/>
+                                    <ComboBoxItem Content="Azad Kashmir"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Postal Code" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="PostalCodeTextBox" Style="{StaticResource InputField}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Right Column -->
+                    <StackPanel Grid.Column="2">
+                        <!-- Business Details Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="💼 Business Details" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Credit Limit (PKR)" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="CreditLimitTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Payment Terms" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="PaymentTermsComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Cash"/>
+                                    <ComboBoxItem Content="15 days"/>
+                                    <ComboBoxItem Content="30 days"/>
+                                    <ComboBoxItem Content="45 days"/>
+                                    <ComboBoxItem Content="60 days"/>
+                                    <ComboBoxItem Content="90 days"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Discount Percentage" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="DiscountPercentageTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Sales Representative" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="SalesRepComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Ahmed Hassan"/>
+                                    <ComboBoxItem Content="Fatima Khan"/>
+                                    <ComboBoxItem Content="Muhammad Ali"/>
+                                    <ComboBoxItem Content="Sara Ahmed"/>
+                                    <ComboBoxItem Content="Omar Sheikh"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Priority Level" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="PriorityComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="High"/>
+                                    <ComboBoxItem Content="Medium" IsSelected="True"/>
+                                    <ComboBoxItem Content="Low"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Banking Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="🏦 Banking Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Bank Name" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="BankNameComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Habib Bank Limited (HBL)"/>
+                                    <ComboBoxItem Content="United Bank Limited (UBL)"/>
+                                    <ComboBoxItem Content="MCB Bank"/>
+                                    <ComboBoxItem Content="Allied Bank"/>
+                                    <ComboBoxItem Content="Bank Alfalah"/>
+                                    <ComboBoxItem Content="Standard Chartered"/>
+                                    <ComboBoxItem Content="Meezan Bank"/>
+                                    <ComboBoxItem Content="Faysal Bank"/>
+                                    <ComboBoxItem Content="Other"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Account Number" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="AccountNumberTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Account Title" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="AccountTitleTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Branch Code" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="BranchCodeTextBox" Style="{StaticResource InputField}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Additional Information Section -->
+                        <Border Background="White" CornerRadius="12" Padding="25">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.2" BlurRadius="6"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="📝 Additional Information" Style="{StaticResource SectionHeader}"/>
+                                
+                                <TextBlock Text="Status" Style="{StaticResource InputLabel}"/>
+                                <ComboBox Name="StatusComboBox" Style="{StaticResource InputComboBox}">
+                                    <ComboBoxItem Content="Active"/>
+                                    <ComboBoxItem Content="Pending" IsSelected="True"/>
+                                    <ComboBoxItem Content="Inactive"/>
+                                </ComboBox>
+                                
+                                <TextBlock Text="Website URL" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="WebsiteTextBox" Style="{StaticResource InputField}"/>
+                                
+                                <TextBlock Text="Notes" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="NotesTextBox" Style="{StaticResource InputField}" Height="80" 
+                                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                                
+                                <TextBlock Text="Tags (Comma separated)" Style="{StaticResource InputLabel}"/>
+                                <TextBox Name="TagsTextBox" Style="{StaticResource InputField}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Action Buttons -->
+                <Grid Margin="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="1" Content="💾 Save Retailer" Style="{StaticResource PrimaryButton}"
+                            Click="SaveButton_Click" MinWidth="140"/>
+                    <Button Grid.Column="3" Content="❌ Cancel" Style="{StaticResource SecondaryButton}"
+                            Click="CancelButton_Click" MinWidth="120"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

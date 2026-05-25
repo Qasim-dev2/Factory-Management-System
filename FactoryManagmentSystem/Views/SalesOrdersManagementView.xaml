@@ -1,0 +1,784 @@
+<UserControl x:Class="FactoryManagmentSystem.Views.SalesOrdersManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1200"
+             Background="#F1F5F9">
+
+    <UserControl.Resources>
+        <!-- Tab Button Styles -->
+        <Style x:Key="TabBtn" TargetType="Button">
+            <Setter Property="Background" Value="#E2E8F0"/>
+            <Setter Property="Foreground" Value="#64748B"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#CBD5E1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ActiveTabBtn" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Action Button Styles -->
+        <Style x:Key="PrimaryBtn" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryBtn" TargetType="Button">
+            <Setter Property="Background" Value="#F1F5F9"/>
+            <Setter Property="Foreground" Value="#475569"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E2E8F0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SuccessBtn" TargetType="Button" BasedOn="{StaticResource PrimaryBtn}">
+            <Setter Property="Background" Value="#10B981"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#059669"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="WarningBtn" TargetType="Button" BasedOn="{StaticResource PrimaryBtn}">
+            <Setter Property="Background" Value="#F59E0B"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#D97706"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DangerBtn" TargetType="Button" BasedOn="{StaticResource PrimaryBtn}">
+            <Setter Property="Background" Value="#EF4444"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DC2626"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Small Action Button -->
+        <Style x:Key="SmallActionBtn" TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2563EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,25">
+            <StackPanel>
+                <TextBlock Text="🛒 Sales Orders Management" FontSize="28" FontWeight="Bold" Foreground="#1E293B"/>
+                <TextBlock Text="Manage sales orders from salespersons and retailers" FontSize="14" Foreground="#64748B" Margin="0,5,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Name="RefreshBtn" Content="🔄 Refresh" Style="{StaticResource SecondaryBtn}" Click="RefreshBtn_Click" Margin="0,0,10,0"/>
+                <Button Name="NewOrderBtn" Content="➕ Create New Order" Style="{StaticResource PrimaryBtn}" Click="NewOrderBtn_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Statistics Cards -->
+        <Grid Grid.Row="1" Margin="0,0,0,25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Total Orders -->
+            <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="20" Margin="0,0,10,0">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="🛒" FontSize="24" HorizontalAlignment="Center"/>
+                    <TextBlock Name="TotalOrdersText" Text="0" FontSize="32" FontWeight="Bold" Foreground="#3B82F6" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    <TextBlock Text="Total Orders" FontSize="13" Foreground="#64748B" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Not Delivered -->
+            <Border Grid.Column="1" Background="White" CornerRadius="12" Padding="20" Margin="5,0">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="⏳" FontSize="24" HorizontalAlignment="Center"/>
+                    <TextBlock Name="NotDeliveredText" Text="0" FontSize="32" FontWeight="Bold" Foreground="#F59E0B" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    <TextBlock Text="Not Delivered" FontSize="13" Foreground="#64748B" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Delivered -->
+            <Border Grid.Column="2" Background="White" CornerRadius="12" Padding="20" Margin="5,0">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="✅" FontSize="24" HorizontalAlignment="Center"/>
+                    <TextBlock Name="DeliveredText" Text="0" FontSize="32" FontWeight="Bold" Foreground="#10B981" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    <TextBlock Text="Delivered" FontSize="13" Foreground="#64748B" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Total Revenue -->
+            <Border Grid.Column="3" Background="White" CornerRadius="12" Padding="20" Margin="10,0,0,0">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="💰" FontSize="24" HorizontalAlignment="Center"/>
+                    <TextBlock Name="TotalRevenueText" Text="₨0" FontSize="28" FontWeight="Bold" Foreground="#8B5CF6" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    <TextBlock Text="Total Revenue" FontSize="13" Foreground="#64748B" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Tab Navigation -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,20">
+            <Button Name="ViewAllTab" Content="📋 View All Orders" Style="{StaticResource ActiveTabBtn}" Tag="ViewAll" Click="TabBtn_Click"/>
+            <Button Name="CreateOrderTab" Content="➕ Create Order" Style="{StaticResource TabBtn}" Tag="Create" Click="TabBtn_Click"/>
+            <Button Name="UpdateOrderTab" Content="✏️ Update Order" Style="{StaticResource TabBtn}" Tag="Update" Click="TabBtn_Click"/>
+            <Button Name="DeleteOrderTab" Content="🗑️ Delete Order" Style="{StaticResource TabBtn}" Tag="Delete" Click="TabBtn_Click"/>
+        </StackPanel>
+
+        <!-- Tab Content Area -->
+        <Grid Grid.Row="3">
+            <!-- VIEW ALL TAB -->
+            <Border Name="ViewAllContent" Background="White" CornerRadius="12" Padding="25" Visibility="Visible">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                            <TextBox Name="SearchBox" Height="40" Padding="12,10" FontSize="14" BorderThickness="0" 
+                                     Background="Transparent" VerticalContentAlignment="Center"
+                                     TextChanged="SearchBox_TextChanged"/>
+                        </Border>
+
+                        <ComboBox Name="StatusFilter" Grid.Column="1" Width="180" Height="40" Margin="15,0" FontSize="14"
+                                  SelectionChanged="StatusFilter_SelectionChanged">
+                            <ComboBoxItem Content="All Status" IsSelected="True"/>
+                            <ComboBoxItem Content="Delivered"/>
+                            <ComboBoxItem Content="Not Delivered"/>
+                        </ComboBox>
+
+                        <Button Grid.Column="2" Content="🔍 Search" Style="{StaticResource PrimaryBtn}" Click="SearchBtn_Click"/>
+                    </Grid>
+
+                    <!-- Sales Orders DataGrid -->
+                    <DataGrid Name="OrdersGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True"
+                              Background="Transparent" BorderThickness="0" GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column" RowHeight="50" CanUserAddRows="False"
+                              HorizontalGridLinesBrush="#E2E8F0" SelectionMode="Single">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#F8FAFC"/>
+                                <Setter Property="Foreground" Value="#475569"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Padding" Value="12,10"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                                <Setter Property="BorderBrush" Value="#E2E8F0"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#EFF6FF"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#F8FAFC"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="12,0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Order ID" Binding="{Binding SalesOrderId}" Width="80"/>
+                            <DataGridTextColumn Header="Retailer" Binding="{Binding RetailerName}" Width="*"/>
+                            <DataGridTextColumn Header="Salesperson" Binding="{Binding SalespersonName}" Width="150"/>
+                            <DataGridTextColumn Header="Order Date" Binding="{Binding OrderDate, StringFormat=dd/MM/yyyy}" Width="110"/>
+                            <DataGridTextColumn Header="Total Amount" Binding="{Binding TotalAmount, StringFormat=₨{0:N0}}" Width="120"/>
+                            <DataGridTemplateColumn Header="Status" Width="130">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="10,5" CornerRadius="12" HorizontalAlignment="Left">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Delivered">
+                                                            <Setter Property="Background" Value="#D1FAE5"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Not Delivered">
+                                                            <Setter Property="Background" Value="#FEF3C7"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="SemiBold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Delivered">
+                                                                <Setter Property="Foreground" Value="#059669"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Not Delivered">
+                                                                <Setter Property="Foreground" Value="#D97706"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Actions" Width="180">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="👁️" Style="{StaticResource SmallActionBtn}" Tag="{Binding SalesOrderId}" Click="ViewOrder_Click" ToolTip="View Details"/>
+                                            <Button Content="✏️" Style="{StaticResource SmallActionBtn}" Background="#F59E0B" Tag="{Binding SalesOrderId}" Click="EditOrder_Click" ToolTip="Edit"/>
+                                            <Button Content="✅" Style="{StaticResource SmallActionBtn}" Background="#10B981" Tag="{Binding SalesOrderId}" Click="MarkDelivered_Click" ToolTip="Mark Delivered"/>
+                                            <Button Content="🗑️" Style="{StaticResource SmallActionBtn}" Background="#EF4444" Tag="{Binding SalesOrderId}" Click="DeleteOrder_Click" ToolTip="Delete"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Pagination -->
+                    <Grid Grid.Row="2" Margin="0,15,0,0">
+                        <TextBlock Name="ShowingText" Text="Showing 1-10 of 0 entries" VerticalAlignment="Center" Foreground="#64748B"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Name="PrevBtn" Content="◀ Previous" Style="{StaticResource SecondaryBtn}" Click="PrevPage_Click" Margin="0,0,10,0"/>
+                            <TextBlock Name="PageText" Text="Page 1 of 1" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="#475569"/>
+                            <Button Name="NextBtn" Content="Next ▶" Style="{StaticResource SecondaryBtn}" Click="NextPage_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- CREATE ORDER TAB -->
+            <Border Name="CreateOrderContent" Background="White" CornerRadius="12" Padding="30" Visibility="Collapsed">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel MaxWidth="600">
+                        <TextBlock Text="➕ Create New Sales Order" FontSize="22" FontWeight="Bold" Foreground="#1E293B" Margin="0,0,0,25"/>
+
+                        <TextBlock Text="Retailer *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <ComboBox Name="CreateRetailer" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,20">
+                            <ComboBoxItem Content="-- Select Retailer --" IsSelected="True"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Salesperson *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <ComboBox Name="CreateSalesperson" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,20">
+                            <ComboBoxItem Content="-- Select Salesperson --" IsSelected="True"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Shipping Address" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <TextBox Name="CreateShippingAddress" Height="80" Padding="12" FontSize="14" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,0,20" Background="White" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Order Date *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <DatePicker Name="CreateOrderDate" Height="45" Padding="12,10" FontSize="14"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Discount (%)" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                                    <TextBox Name="CreateDiscountPercentage" Height="45" Padding="12" FontSize="14" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" Text="0" TextChanged="CreateDiscountPercentage_TextChanged"/>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Discount Amount (₨)" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                                    <TextBox Name="CreateDiscountAmount" Height="45" Padding="12" FontSize="14" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" IsReadOnly="True" Text="0"/>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Total Amount (₨) *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                                    <TextBox Name="CreateTotalAmount" Height="45" Padding="12" FontSize="14" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="Status *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <ComboBox Name="CreateStatus" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,25">
+                            <ComboBoxItem Content="Not Delivered" IsSelected="True"/>
+                            <ComboBoxItem Content="Delivered"/>
+                        </ComboBox>
+
+                        <!-- Deal Items (Products) Section -->
+                        <Border BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,25">
+                            <StackPanel>
+                                <TextBlock Text="📦 Deal Items (Products)" FontSize="16" FontWeight="Bold" Foreground="#1E293B" Margin="0,0,0,15"/>
+                                
+                                <!-- Add Product Section -->
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Product" FontSize="13" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,5"/>
+                                        <ComboBox Name="CreateProductCombo" Height="40" Padding="10" FontSize="13" SelectionChanged="CreateProductCombo_SelectionChanged">
+                                            <ComboBoxItem Content="-- Select Product --" IsSelected="True"/>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                        <TextBlock Text="Quantity" FontSize="13" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,5"/>
+                                        <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Width="80">
+                                            <TextBox Name="CreateQuantity" Height="40" Padding="10" FontSize="13" BorderThickness="0" Background="Transparent" Text="1" VerticalContentAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                                        <TextBlock Text="Unit Price" FontSize="13" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,5"/>
+                                        <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Width="100">
+                                            <TextBox Name="CreateUnitPrice" Height="40" Padding="10" FontSize="13" BorderThickness="0" Background="Transparent" Text="0" VerticalContentAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="3" Margin="10,0,0,0" VerticalAlignment="Bottom">
+                                        <Button Content="➕ Add" Style="{StaticResource PrimaryBtn}" Height="40" Padding="15,0" Click="AddProductToOrder_Click"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Products Table -->
+                                <DataGrid Name="CreateOrderItemsGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                                          Background="Transparent" BorderThickness="1" BorderBrush="#E2E8F0"
+                                          GridLinesVisibility="Horizontal" HeadersVisibility="Column" 
+                                          RowHeight="40" CanUserAddRows="False" Height="200"
+                                          HorizontalGridLinesBrush="#F1F5F9">
+                                    <DataGrid.ColumnHeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#F8FAFC"/>
+                                            <Setter Property="Foreground" Value="#475569"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="Padding" Value="10,8"/>
+                                            <Setter Property="FontSize" Value="12"/>
+                                        </Style>
+                                    </DataGrid.ColumnHeaderStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="*"/>
+                                        <DataGridTextColumn Header="SKU" Binding="{Binding SKU}" Width="100"/>
+                                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="60"/>
+                                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=₨{0:N0}}" Width="100"/>
+                                        <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=₨{0:N0}}" Width="120"/>
+                                        <DataGridTemplateColumn Header="Action" Width="80">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="🗑️" Style="{StaticResource SmallActionBtn}" Background="#EF4444" 
+                                                            Tag="{Binding ProductId}" Click="RemoveProductFromOrder_Click" ToolTip="Remove"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="🔄 Clear Form" Style="{StaticResource WarningBtn}" Click="ClearCreateForm_Click" Margin="0,0,15,0"/>
+                            <Button Content="💾 Create Order" Style="{StaticResource SuccessBtn}" Click="SaveOrder_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- UPDATE ORDER TAB -->
+            <Border Name="UpdateOrderContent" Background="White" CornerRadius="12" Padding="30" Visibility="Collapsed">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel MaxWidth="600">
+                        <TextBlock Text="✏️ Update Sales Order" FontSize="22" FontWeight="Bold" Foreground="#1E293B" Margin="0,0,0,25"/>
+
+                        <TextBlock Text="Select Order to Update *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <ComboBox Name="UpdateOrderSelect" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,20"
+                                  SelectionChanged="UpdateOrderSelect_Changed">
+                            <ComboBoxItem Content="-- Select Order --" IsSelected="True"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Retailer *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <ComboBox Name="UpdateRetailer" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,20">
+                            <ComboBoxItem Content="-- Select Retailer --" IsSelected="True"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Salesperson *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <ComboBox Name="UpdateSalesperson" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,20">
+                            <ComboBoxItem Content="-- Select Salesperson --" IsSelected="True"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Shipping Address" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <TextBox Name="UpdateShippingAddress" Height="80" Padding="12" FontSize="14" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,0,20" Background="White" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Order Date *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <DatePicker Name="UpdateOrderDate" Height="45" Padding="12,10" FontSize="14"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Discount (%)" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                                    <TextBox Name="UpdateDiscountPercentage" Height="45" Padding="12" FontSize="14" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" Text="0" TextChanged="UpdateDiscountPercentage_TextChanged"/>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Discount Amount (₨)" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                                    <TextBox Name="UpdateDiscountAmount" Height="45" Padding="12" FontSize="14" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" IsReadOnly="True" Text="0"/>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Total Amount (₨) *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                                <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
+                                    <TextBox Name="UpdateTotalAmount" Height="45" Padding="12" FontSize="14" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="Status *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                        <ComboBox Name="UpdateStatus" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,25">
+                            <ComboBoxItem Content="Not Delivered"/>
+                            <ComboBoxItem Content="Delivered"/>
+                        </ComboBox>
+
+                        <!-- Deal Items (Products) Section -->
+                        <Border BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,25">
+                            <StackPanel>
+                                <TextBlock Text="📦 Deal Items (Products)" FontSize="16" FontWeight="Bold" Foreground="#1E293B" Margin="0,0,0,15"/>
+                                
+                                <!-- Add Product Section -->
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Product" FontSize="13" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,5"/>
+                                        <ComboBox Name="UpdateProductCombo" Height="40" Padding="10" FontSize="13" SelectionChanged="UpdateProductCombo_SelectionChanged">
+                                            <ComboBoxItem Content="-- Select Product --" IsSelected="True"/>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                        <TextBlock Text="Quantity" FontSize="13" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,5"/>
+                                        <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Width="80">
+                                            <TextBox Name="UpdateQuantity" Height="40" Padding="10" FontSize="13" BorderThickness="0" Background="Transparent" Text="1" VerticalContentAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                                        <TextBlock Text="Unit Price" FontSize="13" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,5"/>
+                                        <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="6" Width="100">
+                                            <TextBox Name="UpdateUnitPrice" Height="40" Padding="10" FontSize="13" BorderThickness="0" Background="Transparent" Text="0" VerticalContentAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="3" Margin="10,0,0,0" VerticalAlignment="Bottom">
+                                        <Button Content="➕ Add" Style="{StaticResource PrimaryBtn}" Height="40" Padding="15,0" Click="AddProductToUpdateOrder_Click"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Products Table -->
+                                <DataGrid Name="UpdateOrderItemsGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                                          Background="Transparent" BorderThickness="1" BorderBrush="#E2E8F0"
+                                          GridLinesVisibility="Horizontal" HeadersVisibility="Column" 
+                                          RowHeight="40" CanUserAddRows="False" Height="200"
+                                          HorizontalGridLinesBrush="#F1F5F9">
+                                    <DataGrid.ColumnHeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#F8FAFC"/>
+                                            <Setter Property="Foreground" Value="#475569"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="Padding" Value="10,8"/>
+                                            <Setter Property="FontSize" Value="12"/>
+                                        </Style>
+                                    </DataGrid.ColumnHeaderStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="*"/>
+                                        <DataGridTextColumn Header="SKU" Binding="{Binding SKU}" Width="100"/>
+                                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="60"/>
+                                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=₨{0:N0}}" Width="100"/>
+                                        <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=₨{0:N0}}" Width="120"/>
+                                        <DataGridTemplateColumn Header="Action" Width="80">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="🗑️" Style="{StaticResource SmallActionBtn}" Background="#EF4444" 
+                                                            Tag="{Binding ProductId}" Click="RemoveProductFromUpdateOrder_Click" ToolTip="Remove"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="🔄 Reset" Style="{StaticResource WarningBtn}" Click="ResetUpdateForm_Click" Margin="0,0,15,0"/>
+                            <Button Content="💾 Update Order" Style="{StaticResource SuccessBtn}" Click="UpdateOrderBtn_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- DELETE ORDER TAB -->
+            <Border Name="DeleteOrderContent" Background="White" CornerRadius="12" Padding="30" Visibility="Collapsed">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" Color="LightGray" Opacity="0.3" BlurRadius="8"/>
+                </Border.Effect>
+                <StackPanel MaxWidth="600">
+                    <TextBlock Text="🗑️ Delete Sales Order" FontSize="22" FontWeight="Bold" Foreground="#1E293B" Margin="0,0,0,25"/>
+
+                    <Border Background="#FEF2F2" CornerRadius="8" Padding="15" Margin="0,0,0,25">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⚠️" FontSize="20" Margin="0,0,10,0"/>
+                            <TextBlock Text="Warning: Deleting an order is permanent and cannot be undone. Please select the order carefully." 
+                                       Foreground="#DC2626" FontSize="13" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Select Order to Delete *" FontSize="14" FontWeight="Medium" Foreground="#374151" Margin="0,0,0,8"/>
+                    <ComboBox Name="DeleteOrderSelect" Height="45" Padding="12,10" FontSize="14" Margin="0,0,0,20"
+                              SelectionChanged="DeleteOrderSelect_Changed">
+                        <ComboBoxItem Content="-- Select Order --" IsSelected="True"/>
+                    </ComboBox>
+
+                    <!-- Order Preview -->
+                    <Border Name="DeletePreviewPanel" Background="#F8FAFC" CornerRadius="8" Padding="20" Margin="0,0,0,25" Visibility="Collapsed">
+                        <StackPanel>
+                            <TextBlock Text="Order Preview" FontSize="16" FontWeight="Bold" Foreground="#1E293B" Margin="0,0,0,15"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Order ID:" FontWeight="SemiBold" Margin="0,0,20,8"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Name="DeletePreviewOrderId" Text="-" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Retailer:" FontWeight="SemiBold" Margin="0,0,20,8"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Name="DeletePreviewRetailer" Text="-" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Order Date:" FontWeight="SemiBold" Margin="0,0,20,8"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Name="DeletePreviewDate" Text="-" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Total Amount:" FontWeight="SemiBold" Margin="0,0,20,8"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Name="DeletePreviewAmount" Text="-" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Status:" FontWeight="SemiBold" Margin="0,0,20,0"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1" Name="DeletePreviewStatus" Text="-"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Content="🗑️ Delete Selected Order" Style="{StaticResource DangerBtn}" Click="ConfirmDeleteOrder_Click" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

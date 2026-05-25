@@ -1,0 +1,751 @@
+<UserControl x:Class="FactoryManagmentSystem.Views.StockManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+        <!-- Color Resources -->
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="SuccessGreen" Color="#10B981"/>
+        <SolidColorBrush x:Key="WarningOrange" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="DangerRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="PurpleAccent" Color="#8B5CF6"/>
+        <SolidColorBrush x:Key="CardBg" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TextDark" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#6B7280"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#E5E7EB"/>
+        <SolidColorBrush x:Key="PageBg" Color="#F3F4F6"/>
+
+        <!-- Card Style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBg}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" Direction="270" ShadowDepth="2" Opacity="0.08" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Primary Button Style -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2563EB"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1D4ED8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Success Button Style -->
+        <Style x:Key="SuccessButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="{StaticResource SuccessGreen}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#059669"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Warning Button Style -->
+        <Style x:Key="WarningButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="{StaticResource WarningOrange}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#D97706"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Tab Button Style -->
+        <Style x:Key="TabBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMuted}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderBrush="Transparent" BorderThickness="0,0,0,3" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F9FAFB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Active Tab Button Style -->
+        <Style x:Key="ActiveTabBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderBrush="{StaticResource PrimaryBlue}" BorderThickness="0,0,0,3" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DataGrid Style -->
+        <Style x:Key="ModernDataGrid" TargetType="DataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#FAFAFA"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="RowHeight" Value="50"/>
+        </Style>
+
+        <!-- DataGrid Header Style -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F8F9FA"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMuted}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="12,14"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        </Style>
+
+        <!-- DataGrid Cell Style -->
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#EBF5FF"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextDark}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Small Action Button -->
+        <Style x:Key="SmallActionBtn" TargetType="Button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="6" Padding="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource PageBg}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <Border Grid.Row="0" Background="White" Padding="30,20">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#EEF2FF" CornerRadius="12" Padding="12" Margin="0,0,16,0">
+                        <TextBlock Text="📦" FontSize="28"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Stock Management" FontSize="26" FontWeight="Bold" 
+                                   Foreground="{StaticResource TextDark}"/>
+                        <TextBlock Text="Track ready products, in-process items, and shipped goods" 
+                                   FontSize="13" Foreground="{StaticResource TextMuted}" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Name="RefreshBtn" Content="🔄 Refresh" Style="{StaticResource PrimaryButton}" 
+                            Click="RefreshBtn_Click" Margin="0,0,10,0"/>
+                    <Button Name="AddStockBtn" Content="➕ Add Stock Entry" Style="{StaticResource SuccessButton}" 
+                            Click="AddStockBtn_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Statistics Cards -->
+        <Grid Grid.Row="1" Margin="30,20,30,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Total Stock -->
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="0,0,10,0">
+                <Grid>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Background="#DBEAFE" CornerRadius="8" Padding="8" Margin="0,0,12,0">
+                                <TextBlock Text="📊" FontSize="20"/>
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Name="TotalStockText" Text="0" FontSize="28" FontWeight="Bold" 
+                                           Foreground="{StaticResource PrimaryBlue}"/>
+                                <TextBlock Text="Total Stock Entries" FontSize="12" 
+                                           Foreground="{StaticResource TextMuted}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Ready Products -->
+            <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="5,0">
+                <Grid>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Background="#D1FAE5" CornerRadius="8" Padding="8" Margin="0,0,12,0">
+                                <TextBlock Text="✅" FontSize="20"/>
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Name="ReadyQtyText" Text="0" FontSize="28" FontWeight="Bold" 
+                                           Foreground="{StaticResource SuccessGreen}"/>
+                                <TextBlock Text="Ready Products" FontSize="12" 
+                                           Foreground="{StaticResource TextMuted}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- In Process -->
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="5,0">
+                <Grid>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Background="#FEF3C7" CornerRadius="8" Padding="8" Margin="0,0,12,0">
+                                <TextBlock Text="⚙️" FontSize="20"/>
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Name="InProcessQtyText" Text="0" FontSize="28" FontWeight="Bold" 
+                                           Foreground="{StaticResource WarningOrange}"/>
+                                <TextBlock Text="In Process" FontSize="12" 
+                                           Foreground="{StaticResource TextMuted}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Shipped -->
+            <Border Grid.Column="3" Style="{StaticResource CardStyle}" Margin="10,0,0,0">
+                <Grid>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Background="#EDE9FE" CornerRadius="8" Padding="8" Margin="0,0,12,0">
+                                <TextBlock Text="🚚" FontSize="20"/>
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Name="ShippedQtyText" Text="0" FontSize="28" FontWeight="Bold" 
+                                           Foreground="{StaticResource PurpleAccent}"/>
+                                <TextBlock Text="Shipped" FontSize="12" 
+                                           Foreground="{StaticResource TextMuted}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Tab Navigation -->
+        <Border Grid.Row="2" Background="White" Margin="30,20,30,0" CornerRadius="12,12,0,0">
+            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <Button Name="ReadyProductsTab" Content="✅ Ready Products" 
+                        Style="{StaticResource ActiveTabBtn}" Click="TabBtn_Click" Tag="Ready"/>
+                <Button Name="InProcessTab" Content="⚙️ In Process" 
+                        Style="{StaticResource TabBtn}" Click="TabBtn_Click" Tag="InProcess"/>
+                <Button Name="ShippedTab" Content="🚚 Shipped Products" 
+                        Style="{StaticResource TabBtn}" Click="TabBtn_Click" Tag="Shipped"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Content Area -->
+        <Border Grid.Row="3" Background="White" Margin="30,0,30,30" 
+                CornerRadius="0,0,12,12" Padding="20">
+            <Grid>
+                <!-- Ready Products Content -->
+                <Grid Name="ReadyProductsContent" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Bar -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" BorderBrush="{StaticResource BorderColor}" 
+                                BorderThickness="1" CornerRadius="8" Padding="12,0" MaxWidth="400" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="🔍" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBox Name="ReadySearchBox" Grid.Column="1" BorderThickness="0" 
+                                         FontSize="14" VerticalAlignment="Center" Height="35"
+                                         Text="" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus"
+                                         TextChanged="ReadySearchBox_TextChanged"/>
+                            </Grid>
+                        </Border>
+
+                        <ComboBox Name="ReadyCategoryFilter" Grid.Column="1" Width="160" Height="40" 
+                                  Margin="15,0,0,0" FontSize="13" VerticalContentAlignment="Center"
+                                  SelectionChanged="ReadyCategoryFilter_Changed">
+                            <ComboBoxItem Content="All Products" IsSelected="True"/>
+                            <ComboBoxItem Content="T-Shirt"/>
+                            <ComboBoxItem Content="Shirt"/>
+                            <ComboBoxItem Content="Jeans"/>
+                            <ComboBoxItem Content="Jacket"/>
+                            <ComboBoxItem Content="Sweatshirt"/>
+                            <ComboBoxItem Content="Pants"/>
+                        </ComboBox>
+
+                        <Button Grid.Column="2" Content="📥 Move to Shipped" Style="{StaticResource PrimaryButton}"
+                                Margin="15,0,0,0" Click="MoveToShipped_Click"/>
+                    </Grid>
+
+                    <!-- Ready Products DataGrid -->
+                    <DataGrid Name="ReadyProductsGrid" Grid.Row="1" Style="{StaticResource ModernDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Width="40" Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Stock ID" Binding="{Binding StockId}" Width="100"/>
+                            <DataGridTextColumn Header="Batch No" Binding="{Binding BatchNo}" Width="120"/>
+                            <DataGridTemplateColumn Header="Product" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Border Background="#EEF2FF" CornerRadius="6" Padding="8,4" Margin="0,0,10,0">
+                                                <TextBlock Text="{Binding ProductCategory}" FontSize="11" 
+                                                           Foreground="{StaticResource PrimaryBlue}" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding ProductName}" VerticalAlignment="Center" 
+                                                       FontWeight="SemiBold" Foreground="{StaticResource TextDark}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Ready Qty" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#D1FAE5" CornerRadius="6" Padding="10,4" HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding ReadyQty}" FontWeight="Bold" 
+                                                       Foreground="#059669" FontSize="14"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded, StringFormat='{}{0:MMM dd, yyyy}'}" Width="130"/>
+                            <DataGridTemplateColumn Header="Actions" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource SmallActionBtn}" Background="#DBEAFE"
+                                                    ToolTip="Edit" Click="EditStock_Click" Tag="{Binding StockId}">
+                                                <TextBlock Text="✏️" FontSize="14"/>
+                                            </Button>
+                                            <Button Style="{StaticResource SmallActionBtn}" Background="#FEE2E2"
+                                                    ToolTip="Delete" Click="DeleteStock_Click" Tag="{Binding StockId}">
+                                                <TextBlock Text="🗑️" FontSize="14"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Pagination -->
+                    <Grid Grid.Row="2" Margin="0,15,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Name="ReadyShowingText" Text="Showing 1-10 of 50 entries" 
+                                       FontSize="13" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Name="ReadyPrevBtn" Content="← Previous" Style="{StaticResource PrimaryButton}"
+                                    Margin="0,0,10,0" Click="ReadyPrevPage_Click" IsEnabled="False"/>
+                            <TextBlock Name="ReadyPageText" Text="Page 1 of 5" FontSize="13" 
+                                       VerticalAlignment="Center" Margin="10,0" Foreground="{StaticResource TextMuted}"/>
+                            <Button Name="ReadyNextBtn" Content="Next →" Style="{StaticResource PrimaryButton}"
+                                    Click="ReadyNextPage_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <!-- In Process Content -->
+                <Grid Name="InProcessContent" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Bar -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" BorderBrush="{StaticResource BorderColor}" 
+                                BorderThickness="1" CornerRadius="8" Padding="12,0" MaxWidth="400" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="🔍" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBox Name="InProcessSearchBox" Grid.Column="1" BorderThickness="0" 
+                                         FontSize="14" VerticalAlignment="Center" Height="35"
+                                         TextChanged="InProcessSearchBox_TextChanged"/>
+                            </Grid>
+                        </Border>
+
+                        <ComboBox Name="InProcessCategoryFilter" Grid.Column="1" Width="160" Height="40" 
+                                  Margin="15,0,0,0" FontSize="13" VerticalContentAlignment="Center"
+                                  SelectionChanged="InProcessCategoryFilter_Changed">
+                            <ComboBoxItem Content="All Products" IsSelected="True"/>
+                            <ComboBoxItem Content="T-Shirt"/>
+                            <ComboBoxItem Content="Shirt"/>
+                            <ComboBoxItem Content="Jeans"/>
+                            <ComboBoxItem Content="Jacket"/>
+                            <ComboBoxItem Content="Sweatshirt"/>
+                            <ComboBoxItem Content="Pants"/>
+                        </ComboBox>
+
+                        <Button Grid.Column="2" Content="✅ Move to Ready" Style="{StaticResource SuccessButton}"
+                                Margin="15,0,0,0" Click="MoveToReady_Click"/>
+                    </Grid>
+
+                    <!-- In Process DataGrid -->
+                    <DataGrid Name="InProcessGrid" Grid.Row="1" Style="{StaticResource ModernDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Width="40" Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Stock ID" Binding="{Binding StockId}" Width="100"/>
+                            <DataGridTextColumn Header="Batch No" Binding="{Binding BatchNo}" Width="120"/>
+                            <DataGridTemplateColumn Header="Product" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Border Background="#FEF3C7" CornerRadius="6" Padding="8,4" Margin="0,0,10,0">
+                                                <TextBlock Text="{Binding ProductCategory}" FontSize="11" 
+                                                           Foreground="#D97706" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding ProductName}" VerticalAlignment="Center" 
+                                                       FontWeight="SemiBold" Foreground="{StaticResource TextDark}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="In Process Qty" Width="130">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#FEF3C7" CornerRadius="6" Padding="10,4" HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding InProcessQty}" FontWeight="Bold" 
+                                                       Foreground="#D97706" FontSize="14"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Start Date" Binding="{Binding ProcessStartDate, StringFormat='{}{0:MMM dd, yyyy}'}" Width="130"/>
+                            <DataGridTemplateColumn Header="Progress" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <ProgressBar Value="{Binding ProgressPercent}" Maximum="100" Height="8" 
+                                                         Background="#E5E7EB" Foreground="{StaticResource WarningOrange}"/>
+                                            <TextBlock Text="{Binding ProgressPercent, StringFormat='{}{0}%'}" 
+                                                       HorizontalAlignment="Center" FontSize="10" Margin="0,12,0,0"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Actions" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource SmallActionBtn}" Background="#D1FAE5"
+                                                    ToolTip="Complete" Click="CompleteProcess_Click" Tag="{Binding StockId}">
+                                                <TextBlock Text="✅" FontSize="14"/>
+                                            </Button>
+                                            <Button Style="{StaticResource SmallActionBtn}" Background="#DBEAFE"
+                                                    ToolTip="Update Progress" Click="UpdateProgress_Click" Tag="{Binding StockId}">
+                                                <TextBlock Text="📊" FontSize="14"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Pagination -->
+                    <Grid Grid.Row="2" Margin="0,15,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Name="InProcessShowingText" Text="Showing 1-10 of 30 entries" 
+                                       FontSize="13" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Name="InProcessPrevBtn" Content="← Previous" Style="{StaticResource PrimaryButton}"
+                                    Margin="0,0,10,0" Click="InProcessPrevPage_Click" IsEnabled="False"/>
+                            <TextBlock Name="InProcessPageText" Text="Page 1 of 3" FontSize="13" 
+                                       VerticalAlignment="Center" Margin="10,0" Foreground="{StaticResource TextMuted}"/>
+                            <Button Name="InProcessNextBtn" Content="Next →" Style="{StaticResource PrimaryButton}"
+                                    Click="InProcessNextPage_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <!-- Shipped Content -->
+                <Grid Name="ShippedContent" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter Bar -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" BorderBrush="{StaticResource BorderColor}" 
+                                BorderThickness="1" CornerRadius="8" Padding="12,0" MaxWidth="400" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="🔍" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBox Name="ShippedSearchBox" Grid.Column="1" BorderThickness="0" 
+                                         FontSize="14" VerticalAlignment="Center" Height="35"
+                                         TextChanged="ShippedSearchBox_TextChanged"/>
+                            </Grid>
+                        </Border>
+
+                        <ComboBox Name="ShippedCategoryFilter" Grid.Column="1" Width="160" Height="40" 
+                                  Margin="15,0,0,0" FontSize="13" VerticalContentAlignment="Center"
+                                  SelectionChanged="ShippedCategoryFilter_Changed">
+                            <ComboBoxItem Content="All Products" IsSelected="True"/>
+                            <ComboBoxItem Content="T-Shirt"/>
+                            <ComboBoxItem Content="Shirt"/>
+                            <ComboBoxItem Content="Jeans"/>
+                            <ComboBoxItem Content="Jacket"/>
+                            <ComboBoxItem Content="Sweatshirt"/>
+                            <ComboBoxItem Content="Pants"/>
+                        </ComboBox>
+
+                        <Button Grid.Column="2" Content="📋 Export Report" Style="{StaticResource PrimaryButton}"
+                                Margin="15,0,0,0" Click="ExportShipped_Click"/>
+                    </Grid>
+
+                    <!-- Shipped DataGrid -->
+                    <DataGrid Name="ShippedGrid" Grid.Row="1" Style="{StaticResource ModernDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Stock ID" Binding="{Binding StockId}" Width="100"/>
+                            <DataGridTextColumn Header="Batch No" Binding="{Binding BatchNo}" Width="120"/>
+                            <DataGridTemplateColumn Header="Product" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Border Background="#EDE9FE" CornerRadius="6" Padding="8,4" Margin="0,0,10,0">
+                                                <TextBlock Text="{Binding ProductCategory}" FontSize="11" 
+                                                           Foreground="#7C3AED" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding ProductName}" VerticalAlignment="Center" 
+                                                       FontWeight="SemiBold" Foreground="{StaticResource TextDark}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Shipped Qty" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#EDE9FE" CornerRadius="6" Padding="10,4" HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding ShippedQty}" FontWeight="Bold" 
+                                                       Foreground="#7C3AED" FontSize="14"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Ship Date" Binding="{Binding ShippedDate, StringFormat='{}{0:MMM dd, yyyy}'}" Width="130"/>
+                            <DataGridTextColumn Header="Destination" Binding="{Binding Destination}" Width="150"/>
+                            <DataGridTemplateColumn Header="Status" Width="110">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="6" Padding="8,4" HorizontalAlignment="Left">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DeliveryStatus}" Value="Delivered">
+                                                            <Setter Property="Background" Value="#D1FAE5"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding DeliveryStatus}" Value="In Transit">
+                                                            <Setter Property="Background" Value="#DBEAFE"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding DeliveryStatus}" Value="Pending">
+                                                            <Setter Property="Background" Value="#FEF3C7"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding DeliveryStatus}" FontSize="11" FontWeight="SemiBold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding DeliveryStatus}" Value="Delivered">
+                                                                <Setter Property="Foreground" Value="#059669"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding DeliveryStatus}" Value="In Transit">
+                                                                <Setter Property="Foreground" Value="#2563EB"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding DeliveryStatus}" Value="Pending">
+                                                                <Setter Property="Foreground" Value="#D97706"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Actions" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource SmallActionBtn}" Background="#DBEAFE"
+                                                ToolTip="View Details" Click="ViewShipmentDetails_Click" Tag="{Binding StockId}">
+                                            <TextBlock Text="👁️" FontSize="14"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Pagination -->
+                    <Grid Grid.Row="2" Margin="0,15,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Name="ShippedShowingText" Text="Showing 1-10 of 80 entries" 
+                                       FontSize="13" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Name="ShippedPrevBtn" Content="← Previous" Style="{StaticResource PrimaryButton}"
+                                    Margin="0,0,10,0" Click="ShippedPrevPage_Click" IsEnabled="False"/>
+                            <TextBlock Name="ShippedPageText" Text="Page 1 of 8" FontSize="13" 
+                                       VerticalAlignment="Center" Margin="10,0" Foreground="{StaticResource TextMuted}"/>
+                            <Button Name="ShippedNextBtn" Content="Next →" Style="{StaticResource PrimaryButton}"
+                                    Click="ShippedNextPage_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

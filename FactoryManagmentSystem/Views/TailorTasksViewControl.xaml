@@ -1,0 +1,357 @@
+<UserControl x:Class="FactoryManagmentSystem.Views.TailorTasksViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <!-- DataGrid Header Style -->
+        <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#34495E"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#2C3E50"/>
+            <Setter Property="BorderThickness" Value="0,0,1,0"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="#F5F7FA">
+        <!-- Header Section -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="30,20">
+            <StackPanel>
+                <TextBlock Text="👷 Tailor Tasks Management" 
+                          FontSize="28" 
+                          FontWeight="Bold" 
+                          Foreground="White"/>
+                <TextBlock Text="Monitor and update tailor production assignments" 
+                          FontSize="14" 
+                          Foreground="#BDC3C7" 
+                          Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Tailor Selection -->
+        <Border Grid.Row="1" Background="White" 
+                Margin="20,20,20,10" 
+                Padding="20" 
+                CornerRadius="8"
+                BorderBrush="#E0E0E0" 
+                BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                          Text="Select Tailor:" 
+                          FontSize="16" 
+                          FontWeight="SemiBold"
+                          VerticalAlignment="Center"
+                          Margin="0,0,15,0"/>
+
+                <ComboBox x:Name="CmbTailors"
+                         Grid.Column="1"
+                         FontSize="14"
+                         Padding="10,8"
+                         DisplayMemberPath="TailorName"
+                         SelectedValuePath="EmployeeID"
+                         SelectionChanged="CmbTailors_SelectionChanged"/>
+
+                <StackPanel Grid.Column="2" 
+                           Orientation="Horizontal" 
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Margin="20,0,0,0">
+                    <Border Background="#E8F5E9" 
+                           Padding="12,6" 
+                           CornerRadius="4"
+                           Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⏳ Active: " 
+                                     FontSize="13" 
+                                     FontWeight="SemiBold"
+                                     Foreground="#2E7D32"/>
+                            <TextBlock x:Name="TxtActiveCount" 
+                                     Text="0" 
+                                     FontSize="13" 
+                                     FontWeight="Bold"
+                                     Foreground="#2E7D32"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Background="#E3F2FD" 
+                           Padding="12,6" 
+                           CornerRadius="4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="✅ Completed: " 
+                                     FontSize="13" 
+                                     FontWeight="SemiBold"
+                                     Foreground="#1976D2"/>
+                            <TextBlock x:Name="TxtCompletedCount" 
+                                     Text="0" 
+                                     FontSize="13" 
+                                     FontWeight="Bold"
+                                     Foreground="#1976D2"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <Button x:Name="BtnRefresh"
+                       Grid.Column="3"
+                       Content="🔄 Refresh"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Background="#3498DB"
+                       Foreground="White"
+                       Padding="15,8"
+                       Margin="15,0,0,0"
+                       Cursor="Hand"
+                       Click="BtnRefresh_Click"
+                       BorderThickness="0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#3498DB"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                               CornerRadius="6" 
+                                               Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#2980B9"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Tasks DataGrid -->
+        <Border Grid.Row="2" 
+                Background="White" 
+                Margin="20,10,20,20" 
+                CornerRadius="8"
+                BorderBrush="#E0E0E0" 
+                BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Column Headers Info -->
+                <Border Grid.Row="0" 
+                       Background="#F8F9FA" 
+                       Padding="20,15"
+                       BorderBrush="#E0E0E0"
+                       BorderThickness="0,0,0,1">
+                    <TextBlock Text="📋 Production Tasks" 
+                              FontSize="18" 
+                              FontWeight="SemiBold"
+                              Foreground="#2C3E50"/>
+                </Border>
+
+                <DataGrid x:Name="DgTasks"
+                         Grid.Row="1"
+                         AutoGenerateColumns="False"
+                         IsReadOnly="True"
+                         SelectionMode="Single"
+                         GridLinesVisibility="Horizontal"
+                         HeadersVisibility="Column"
+                         RowHeight="50"
+                         FontSize="13"
+                         Background="White"
+                         BorderThickness="0"
+                         CanUserResizeRows="False"
+                         CanUserReorderColumns="False"
+                         AlternatingRowBackground="#F8F9FA"
+                         Margin="10">
+                    
+                    <DataGrid.Columns>
+                        <!-- Task ID -->
+                        <DataGridTextColumn Header="Task ID" 
+                                          Binding="{Binding TailorAssignmentID}"
+                                          Width="80"
+                                          HeaderStyle="{StaticResource DataGridHeaderStyle}"/>
+
+                        <!-- Production Order -->
+                        <DataGridTextColumn Header="Production #" 
+                                          Binding="{Binding ProductionOrderID}"
+                                          Width="100"
+                                          HeaderStyle="{StaticResource DataGridHeaderStyle}"/>
+
+                        <!-- Product Name -->
+                        <DataGridTextColumn Header="Product" 
+                                          Binding="{Binding ProductName}"
+                                          Width="180"
+                                          HeaderStyle="{StaticResource DataGridHeaderStyle}"/>
+
+                        <!-- Quantity -->
+                        <DataGridTextColumn Header="Quantity" 
+                                          Binding="{Binding QuantityOrdered}"
+                                          Width="90"
+                                          HeaderStyle="{StaticResource DataGridHeaderStyle}"/>
+
+                        <!-- Status -->
+                        <DataGridTemplateColumn Header="Status" Width="120"
+                                              HeaderStyle="{StaticResource DataGridHeaderStyle}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Background="{Binding StatusColor}" 
+                                           Padding="10,5" 
+                                           CornerRadius="4"
+                                           HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding CompletionStatus}" 
+                                                 FontWeight="SemiBold"
+                                                 Foreground="White"
+                                                 FontSize="12"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- Assigned Date -->
+                        <DataGridTextColumn Header="Assigned Date" 
+                                          Binding="{Binding AssignedDate, StringFormat='{}{0:MMM dd, yyyy}'}"
+                                          Width="120"
+                                          HeaderStyle="{StaticResource DataGridHeaderStyle}"/>
+
+                        <!-- Actions -->
+                        <DataGridTemplateColumn Header="Actions" Width="*"
+                                              HeaderStyle="{StaticResource DataGridHeaderStyle}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" 
+                                              HorizontalAlignment="Center">
+                                        <Button Content="▶ Start"
+                                               Tag="{Binding TailorAssignmentID}"
+                                               Click="BtnStartTask_Click"
+                                               Visibility="{Binding StartButtonVisibility}"
+                                               Background="#4CAF50"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Padding="12,6"
+                                               Margin="5,0"
+                                               Cursor="Hand"
+                                               BorderThickness="0">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="#4CAF50"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" 
+                                                                       CornerRadius="4" 
+                                                                       Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                                    VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#45A049"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+
+                                        <Button Content="✓ Complete"
+                                               Tag="{Binding TailorAssignmentID}"
+                                               Click="BtnCompleteTask_Click"
+                                               Visibility="{Binding CompleteButtonVisibility}"
+                                               Background="#2196F3"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Padding="12,6"
+                                               Margin="5,0"
+                                               Cursor="Hand"
+                                               BorderThickness="0">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="#2196F3"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" 
+                                                                       CornerRadius="4" 
+                                                                       Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                                    VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#1976D2"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+
+                                        <TextBlock Text="✅ Completed"
+                                                 Visibility="{Binding CompletedTextVisibility}"
+                                                 Foreground="#4CAF50"
+                                                 FontWeight="SemiBold"
+                                                 FontSize="13"
+                                                 VerticalAlignment="Center"
+                                                 Margin="10,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- No Data Message -->
+                <StackPanel Grid.Row="1"
+                           x:Name="PnlNoData"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Visibility="Collapsed">
+                    <TextBlock Text="📭" 
+                              FontSize="64" 
+                              HorizontalAlignment="Center"
+                              Margin="0,0,0,20"/>
+                    <TextBlock Text="No tasks found" 
+                              FontSize="20" 
+                              FontWeight="SemiBold"
+                              Foreground="#95A5A6"
+                              HorizontalAlignment="Center"/>
+                    <TextBlock Text="Select a tailor to view their assignments" 
+                              FontSize="14" 
+                              Foreground="#BDC3C7"
+                              HorizontalAlignment="Center"
+                              Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
